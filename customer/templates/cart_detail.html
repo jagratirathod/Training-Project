@@ -1,0 +1,87 @@
+{% extends 'cbase.html' %}
+{% load crispy_forms_tags %}
+{% load cart_tag %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+
+{% block content %}<br>
+<div class="mx-5">
+    <a href="/customer/" class="btn btn-warning">CONTINUE SHOPPING </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
+        PROCEED TO CHECKOUT</button>
+</div>
+
+<!-- ADDRESS AREA -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Checkout</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/customer/payment/"> <br>
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Place order</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- CART AREA -->
+
+
+<a href="/customer/cart_clear/" class="btn btn-danger" style="float:right;">Clear Cart !</a> <br>
+
+
+<div class="mx-5 mt-5">
+    <div class="row">
+        {% for key,value in request.session.cart.items %}
+        <div class="card mb-3" style="width: 18rem;">
+            <img class="card-img-top md" src="{{value.image}}" style="width:260px; height: 150px;" alt="Card image cap">
+            <div class="card-body">
+                <!-- <p>{{key}}, {{value}}</p> -->
+                <div class="card-text" style="color:blue">Name : {{value.name}}</div>
+                <div class="card-text">Price : {{value.price}}</div>
+                <div class="card-text">Quantity : {{value.quantity}} </div>
+                <div class="card-text"> Total Price : {{ value.price|multiply:value.quantity }}</div>
+                <a href="/customer/item_increment/{{value.product_id}}/" class="btn btn-secondary"
+                    style="height:30px;width:2px;">+</a>
+
+                <a href="/customer/item_decrement/{{value.product_id}}/" class="btn btn-secondary"
+                    style="height:30px;width:2px;">-</a>
+
+
+
+                <a href="/customer/item_clear/{{value.product_id}}/" style="float:right; color:rgb(224, 95, 95);"><i
+                        class="fa
+                        fa-trash fa-2x"></i></a>
+
+            </div>
+        </div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        {% endfor %}
+
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+
+{% endblock %}

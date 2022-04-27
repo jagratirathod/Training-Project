@@ -1,0 +1,127 @@
+{% extends 'cbase.html' %}
+{% load crispy_forms_tags %}
+{% load cartfilter %}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+
+
+{% block content %}
+<style>
+    #right {
+        height: fit-content;
+        width: 25%;
+        float: right;
+        background-color: rgb(175, 167, 167);
+
+    }
+
+    #left {
+        height: fit-content;
+        width: 75%;
+        float: left;
+        background-color: rgb(245, 228, 208);
+    }
+
+    /* #hello {
+        a:hover{
+            background-color:green;
+        }
+    }
+     */
+</style>
+
+<!-- Category side -->
+<div id="right">
+    <center>
+        <h1 style="color: blue;">Category</h1> <br>
+        {% for row in categories %}
+        <a href="/customer/?category={{row.id}}">{{row.cat_name}} <br>
+            <img src="{{row.image.url}}" height="100px" width="210px">
+
+        </a><br><br><br>
+        {% endfor %}
+    </center>
+</div>
+
+
+<!-- food Area  -->
+
+<div class="mx-5 mt-4">
+    <div class="row">
+        {% for row in foods %}
+        {% if foods %}
+        <div class="card mb-3" style="width: 18rem;">
+            <img class="card-img-top" src="{{row.image.url}}" style="width:260px; height: 150px;" alt="Card image cap">
+            <div class="card-body">
+                <div class="card-text" style="color:blue">{{row.name}}</div>
+                <!-- <div class="card-text">{{row.description}}</div> -->
+                <div class="card-text">Price: ₹{{row.price}}</div>
+                <div class="card-text">{{row.category}}</div>
+                <div class="card-text">Restaurant : {{row.restaurants}}</div>
+                <a href="/customer/SingleFood/{{row.id}}" class="btn btn-warning">View</a>
+                <a href="/customer/AddInWishlist/?food={{row.id}}" style="float:right; color:red"><i
+                        class="fa fa-heart"></i></a>
+            </div>
+            <div class="card-footer p-0 no-gutters">
+                {% if row|in_cart:request.session.cart %}
+                <div class="row no-gutters">
+                    <div class="col-2 ">
+                        <a href="/customer/item_decrement/{{row.id}}/"
+                            class="btn btn-block btn-light border-right">-</a>
+                    </div>
+                    <div class="text-center col">{{row|cart_quantity:request.session.cart}} in Cart</div>
+                    <div class="col-2 ">
+                        <a href="/customer/item_increment/{{row.id}}/" class="btn btn-block btn-light border-right">
+                            +
+                        </a>
+                    </div>
+                </div>
+                {% else %}
+
+                <a href="/customer/cart_add/{{row.id}}/" class="float-right btn btn-light form-control">
+                    Add To Cart
+                </a>
+
+                {% endif %}
+            </div>
+        </div> <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {% endif %}
+        {% endfor %}
+    </div>
+</div> <br><br><br><br>
+
+
+
+
+
+
+<!-- Pagination Area -->
+
+<div class="">
+    <nav aria-label=" ..." style="display: flex;justify-content: center;align-items: center;">
+        <ul class="pagination">
+            {% if foods.has_previous %}
+
+            <li class="page-item">
+                <a class="page-link" href="/customer/?page={{foods.previous_page_number}}" tabindex="-1">Previous</a>
+            </li>
+
+            {% endif %}
+
+
+
+            <li class="page-item"><a class="page-link" href="/customer/?page=3">{{foods.number}}</a></li>
+
+
+
+
+            {% if foods.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="/customer/?page={{foods.next_page_number}}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

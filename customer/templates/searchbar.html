@@ -1,0 +1,33 @@
+{% extends 'cbase.html' %}
+
+
+{% block content %}<br>
+{% if searchbar %}
+
+<div class="mx-3 mt-3 ">
+    <div class="row">
+
+        {% for row in searchbar %}
+        <div class="card mb-3" style="width: 18rem;">
+            <img class="card-img-top" src="{{row.image.url}}" style="width:260px; height: 150px;" alt="Card image cap">
+            <div class="card-body">
+                <div class="card-text" style="color:blue">{{row.name}}</div>
+                <div class="card-text">{{row.description}}</div>
+                <div class="card-text">Price: ₹{{row.price}}</div>
+                <div class="card-text">Restaurant : {{row.restaurants}}</div>
+                <a href="/customer/cart_add/{{row.id}}" class="btn btn-secondary">Add To Cart</a>
+                <a href="/customer/item_increment/{{row.id}}/" class="btn btn-secondary"
+                    style="height:30px;width:2px;">+</a>
+                <a href="/customer/item_decrement/{{row.id}}/" class="btn btn-secondary"
+                    style="height:30px;width:2px;">-</a>
+            </div>
+        </div> <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {% endfor %}
+
+    </div>
+</div>
+{% else %}
+<p>Empty!</p>
+{% endif %}
+{% endblock %}
+

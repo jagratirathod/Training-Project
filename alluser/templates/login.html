@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+
+
+{% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="text-center alert alert-{{ message.tags }} alert-dismissible">
+    {{ message|safe }}
+</div>
+{% endfor %}
+{% endif %}
+
+<div style="background-color: bisque;" >
+    <center><br>
+        <h1 style="font:bold; color:blue">Login Here!</h1> <br><br>
+
+        <div>
+            <form method="POST" action="/alluser/LoginView/" style="width:400px;">
+                {% csrf_token %}
+                {{form|crispy}} <br>
+                <button type="submit" class="btn btn-danger">Login</button>
+
+            </form>
+            <img src="{% static 'images/login1.png' %}">
+        </div>
+    </center>
+</div>
+{% endblock %}

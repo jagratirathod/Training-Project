@@ -1,0 +1,22 @@
+{% extends 'cbase.html' %}
+
+{% block content %}
+
+<div class="mx-4 mt-4">
+    <div class="row">
+        {% for row in wish %}
+        <div class="card mb-3" style="width: 18rem;">
+            <img class="card-img-top" src="{{row.food.image.url}}" style="width:260px; height: 150px;"
+                alt="Card image cap">
+            <div class="card-body">
+                <div class="card-text" style="color:blue">{{row.food.name}}</div>
+                <div class="card-text">Price: ₹{{row.food.price}}</div>
+                <a href="/customer/Fooddelete/{{row.id}}/" style="float:right; color:rgb(99, 95, 95);"><i class="fa
+                    fa-trash fa-2x"></i></a>
+            </div>
+        </div> <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
