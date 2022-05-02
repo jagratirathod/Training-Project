@@ -161,3 +161,8 @@ razorpay_account_id = "XE9ihvWJ9zBGOhBEBx6RLlHG"
 order_currency = 'INR'
 
 login_url = reverse_lazy('alluser:login')
+
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://jacksbites.herokuapp.com'
+]
