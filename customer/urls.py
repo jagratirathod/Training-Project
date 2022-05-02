@@ -1,5 +1,5 @@
 from django.urls import path
-from customer import views
+from . import views
 
 app_name = "customer"
 urlpatterns = [
@@ -20,5 +20,9 @@ urlpatterns = [
     path('cart_clear/', views.cart_clear, name='cart_clear'),
     path('cart-detail/', views.cart_detail, name='cart_detail'),
     path('handlerequest/', views.handlerequest, name='handlerequest'),
+
+    path('profile-update/<int:pk>/', views.ProfileUpdateView.as_view(), name='profile-update'),
+    path('profile/', views.profile,name='profile'),
+
 
 ]

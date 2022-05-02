@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from django.urls import reverse_lazy
 import os
 from pathlib import Path
 
@@ -24,10 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
+# SECRET_KEY = 'django-insecure-#!udshn_1u09^w83e0jq3h6y#(n9ml$pxjt*aj^4h+b(a2irc1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ["jacksbites.herokuapp.com", "localhost"]
+# ALLOWED_HOSTS =[]
 
 
 # Application definition
@@ -48,12 +51,11 @@ INSTALLED_APPS = [
     'cart',
     'customer',
 
-
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware'
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -138,7 +140,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT=BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # STATICFILES_DIRS = [BASE_DIR/'static']
 MEDIA_URL = "/media/"
@@ -157,3 +159,5 @@ razorpay_id = "rzp_test_3GycJAfVDhBsUL"
 razorpay_account_id = "XE9ihvWJ9zBGOhBEBx6RLlHG"
 
 order_currency = 'INR'
+
+login_url = reverse_lazy('alluser:login')

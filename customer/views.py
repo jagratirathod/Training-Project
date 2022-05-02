@@ -10,18 +10,17 @@ from unicodedata import category
 from urllib import request
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from mainapp.models import Food, Wishlist, Order, Orderline, ShippingAddress, ProductReview
+from mainapp.models import Food,User, Wishlist, Order, Orderline, ShippingAddress, ProductReview
 from django.views import View
 from django.views.generic.list import ListView
 from vender .forms import foodform, Category
-from customer.forms import AddressForm, Reviewform
+from customer.forms import AddressForm, Reviewform,UserForm
 from cart.cart import Cart
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
 from django. db. models import Q
-from django.contrib.auth.models import User
-from django.views.generic.edit import DeleteView
+from django.views.generic.edit import DeleteView,UpdateView
 from django.core.paginator import Paginator
 from BestBites import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -29,6 +28,12 @@ from django.contrib.sites.shortcuts import get_current_site
 import razorpay
 razorpay_client = razorpay.Client(
     auth=(settings.razorpay_id, settings.razorpay_account_id))
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
+from django.contrib import messages
+from .forms import UserForm
+from django.http import HttpResponse
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -233,3 +238,13 @@ class Filterby(View):
         else:
             filter = Food.objects.all().order_by('-price')
         return render(request, 'filter.html',{'filter': filter})
+
+def profile(request):
+    return render(request, 'profile.html')
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    login_url=settings.login_url
+    form_class = UserForm
+    model = User
+    template_name = 'profile-update.html'
+    success_url="/customer/profile/"
