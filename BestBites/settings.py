@@ -30,7 +30,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["jacksbites.herokuapp.com", "localhost"]
+ALLOWED_HOSTS = ["bestbites2.herokuapp.com", "localhost"]
 # ALLOWED_HOSTS = []
 
 
@@ -182,7 +182,7 @@ login_url = reverse_lazy('alluser:login')
 
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://jacksbites.herokuapp.com'
+    'https://bestbites2.herokuapp.com'
 ]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
