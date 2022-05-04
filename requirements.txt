@@ -12,6 +12,7 @@ mysql-client
 mysql-connector
 mysqlclient
 Pillow
+psycopg2
 razorpay
 redis
 virtualenv
