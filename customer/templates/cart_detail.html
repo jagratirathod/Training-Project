@@ -7,7 +7,7 @@
 
 {% block content %}<br>
 <div class="mx-5">
-    <a href="/customer/" class="btn btn-warning">CONTINUE SHOPPING </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{% url 'customer:customerview' %}" class="btn btn-warning">CONTINUE SHOPPING </a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">
         PROCEED TO CHECKOUT</button>
 </div>
@@ -24,7 +24,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="/customer/payment/"> <br>
+                <form method="POST" action="{% url 'customer:payment' %}"> <br>
                     {% csrf_token %}
                     {{form|crispy}}
                     <div class="modal-footer">
@@ -40,7 +40,7 @@
 <!-- CART AREA -->
 
 
-<a href="/customer/cart_clear/" class="btn btn-danger" style="float:right;">Clear Cart !</a> <br>
+<a href="{% url 'customer:cart_clear' %}" class="btn btn-danger" style="float:right;">Clear Cart !</a> <br>
 
 
 <div class="mx-5 mt-5">
@@ -54,15 +54,15 @@
                 <div class="card-text">Price : {{value.price}}</div>
                 <div class="card-text">Quantity : {{value.quantity}} </div>
                 <div class="card-text"> Total Price : {{ value.price|multiply:value.quantity }}</div>
-                <a href="/customer/item_increment/{{value.product_id}}/" class="btn btn-secondary"
+                <a href="{% url 'customer:item_increment' value.product_id %}" class="btn btn-secondary"
                     style="height:30px;width:2px;">+</a>
 
-                <a href="/customer/item_decrement/{{value.product_id}}/" class="btn btn-secondary"
+                <a href="{% url 'customer:item_decrement' value.product_id %}" class="btn btn-secondary"
                     style="height:30px;width:2px;">-</a>
 
 
 
-                <a href="/customer/item_clear/{{value.product_id}}/" style="float:right; color:rgb(224, 95, 95);"><i
+                <a href="{% url 'customer:item_clear' value.product_id %}" style="float:right; color:rgb(224, 95, 95);"><i
                         class="fa
                         fa-trash fa-2x"></i></a>
 

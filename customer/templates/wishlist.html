@@ -11,7 +11,7 @@
             <div class="card-body">
                 <div class="card-text" style="color:blue">{{row.food.name}}</div>
                 <div class="card-text">Price: ₹{{row.food.price}}</div>
-                <a href="/customer/Fooddelete/{{row.id}}/" style="float:right; color:rgb(99, 95, 95);"><i class="fa
+                <a href="{% url 'customer:delete' row.id %}" style="float:right; color:rgb(99, 95, 95);"><i class="fa
                     fa-trash fa-2x"></i></a>
             </div>
         </div> <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

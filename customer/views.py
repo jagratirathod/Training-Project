@@ -1,3 +1,8 @@
+from django.urls import reverse_lazy
+from .forms import UserForm
+from django.contrib import messages
+from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from sre_constants import SUCCESS
 from urllib.robotparser import RequestRate
 from django.views.generic.edit import CreateView
@@ -10,17 +15,17 @@ from unicodedata import category
 from urllib import request
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from mainapp.models import Food,User, Wishlist, Order, Orderline, ShippingAddress, ProductReview
+from mainapp.models import Food, User, Wishlist, Order, Orderline, ShippingAddress, ProductReview
 from django.views import View
 from django.views.generic.list import ListView
 from vender .forms import foodform, Category
-from customer.forms import AddressForm, Reviewform,UserForm
+from customer.forms import AddressForm, Reviewform, UserForm
 from cart.cart import Cart
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 
 from django. db. models import Q
-from django.views.generic.edit import DeleteView,UpdateView
+from django.views.generic.edit import DeleteView, UpdateView
 from django.core.paginator import Paginator
 from BestBites import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -28,12 +33,6 @@ from django.contrib.sites.shortcuts import get_current_site
 import razorpay
 razorpay_client = razorpay.Client(
     auth=(settings.razorpay_id, settings.razorpay_account_id))
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView
-from django.contrib import messages
-from .forms import UserForm
-from django.http import HttpResponse
-from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -55,24 +54,24 @@ def cart_add(request, pk):
     cart = Cart(request)
     product = Food.objects.get(pk=pk)
     cart.add(product=product)
-    return redirect("/customer/")
+    return redirect("customer:customerview")
 
 
 def item_clear(request, pk):
     cart = Cart(request)
     product = Food.objects.get(id=pk)
     cart.remove(product)
-    return redirect("/customer/cart-detail/")
+    return redirect("customer:cart-detail")
 
 
 def item_increment(request, pk):
     cart = Cart(request)
     product = Food.objects.get(id=pk)
     cart.add(product=product)
-    return redirect("/customer/cart-detail/")
+    return redirect("customer:cart-detail")
 
 
-def item_decrement(request,pk):
+def item_decrement(request, pk):
     cart = Cart(request)
     # import pdb;pdb.set_trace()
     product = Food.objects.get(pk=pk)
@@ -81,13 +80,13 @@ def item_decrement(request,pk):
         item_clear(request, pk)
     else:
         cart.decrement(product=product)
-    return redirect("/customer/cart-detail/")
+    return redirect("customer:cart-detail")
 
 
 def cart_clear(request):
     cart = Cart(request)
     cart.clear()
-    return redirect("/customer/cart-detail/")
+    return redirect("customer:cart-detail")
 
 
 def cart_detail(request):
@@ -125,13 +124,13 @@ class AddInWishlist(View):
 
         if food_in_wish == False:
             Wishlist.objects.create(user=user, food=food)
-        return redirect('/customer/')
+        return redirect("customer:customerview")
 
 
 class Fooddelete(DeleteView):
     model = Wishlist
     template_name = "deleteefood.html"
-    success_url = "/customer/"
+    success_url = reverse_lazy("customer:customerview")
 
 
 def payment(request):
@@ -189,16 +188,17 @@ def handlerequest(request):
         myorder = Order.objects.get(order_id=order_id)
         print(myorder)
 
-        try:
-            check = razorpay_client.utility.verify_payment_signature(
-                params_dict)
+
+        
+        check = razorpay_client.utility.verify_payment_signature(params_dict)
+        if check:
             myorder.status = 'Done'
             myorder.save()
             return render(request, 'success.html')
-        except:
-            myorder.status = 'Fail'
-            myorder.save()
-            return render(request, 'cancel.html')
+        
+        myorder.status = 'Fail'
+        myorder.save()
+        return render(request, 'cancel.html')
 
 
 class MyOrder(View):
@@ -212,8 +212,6 @@ class MyOrder(View):
         return render(request, 'orders.html', {'result': result, 'form': form})
 
 
-
-
 class ReviewProduct(View):
     def post(self, request, pk):
         form = Reviewform(request.POST)
@@ -221,7 +219,7 @@ class ReviewProduct(View):
             form.instance.user = request.user
             form.instance.foodId_id = pk
             form.save()
-        return redirect("/customer/Order/")
+        return redirect("customer:order")
 
 
 class SingleFood(DetailView):
@@ -237,14 +235,16 @@ class Filterby(View):
             filter = Food.objects.all().order_by('price')
         else:
             filter = Food.objects.all().order_by('-price')
-        return render(request, 'filter.html',{'filter': filter})
+        return render(request, 'filter.html', {'filter': filter})
+
 
 def profile(request):
     return render(request, 'profile.html')
 
+
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
-    login_url=settings.login_url
+    login_url = settings.login_url
     form_class = UserForm
     model = User
     template_name = 'profile-update.html'
-    success_url="/customer/profile/"
+    success_url = reverse_lazy("customer:profile")

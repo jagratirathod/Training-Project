@@ -29,30 +29,28 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item active">
-            <h5> <a class="nav-link active" aria-current="page" href="/customer/">Customer Home</a></h5>
+            <h5> <a class="nav-link active" aria-current="page" href="{% url 'customer:customerview' %}">Customer Home</a></h5>
+          </li>
+          
+          <li class="nav-item">
+            <h5> <a class="nav-link" href="{% url 'customer:wish' %}">WishList</a></h5>
+          </li>
+
+          <li class="nav-item">
+            <h5> <a class="nav-link" href="{% url 'customer:order' %}">MyOrder</a></h5>
           </li>
 
 
 
           <li class="nav-item">
-            <h5> <a class="nav-link" href="/customer/Mywishlist/">WishList</a></h5>
-          </li>
-
-          <li class="nav-item">
-            <h5> <a class="nav-link" href="/customer/Order/">MyOrder</a></h5>
-          </li>
-
-
-
-          <li class="nav-item">
-            <h4> <a class="nav-link" href="/customer/cart-detail/"> <img id="cart-icon"
+            <h4> <a class="nav-link" href="{% url 'customer:cart-detail' %}"> <img id="cart-icon"
                   src="{% static 'images/cart8.png' %}" width="45" height="40"></a></h4>
           </li>
           <p id="cart-total">{{request.session.cart|length}}</p>
 
 
           <li>
-            <form action="/customer/Filterby/" method="GET">
+            <form action="{% url 'customer:filter' %}" method="GET">
               <div class="input-group">
 
                 <select class="custom-select" name="sort" id="sort" aria-label="Example select with button addon">
@@ -68,13 +66,13 @@
           </li>
 
           <li class="nav-item">
-            <h5><a class="nav-link" href="/customer/profile/">Profile</a></h5>
+            <h5> <a class="nav-link" href="{% url 'customer:profile' %}">Profile</a></h5>
           </li>
 
 
 
           <li class="nav-item">
-            <h5> <a class="nav-link" href="/alluser/LoginView/">Logout</a></h5>
+            <h5> <a class="nav-link" href="{% url 'alluser:login' %}">Logout</a></h5>
           </li>
 
 
@@ -92,7 +90,7 @@
 
 
 
-        <form class="d-flex" action="/customer/SearchView/" method="GET" class="form-inline">
+        <form class="d-flex" action="{% url 'customer:mysearch' %}" method="GET" class="form-inline">
 
           <input type="text" name="q" placeholder="Search Here" value="{{ request.GET.q }}" class="form-control">
           <button class="btn btn-outline-success" type="submit" value="Search">Search</button>
@@ -101,6 +99,11 @@
       </div>
     </div>
   </nav>
+
+
+
+ 
+
 </body>
 
 </html>

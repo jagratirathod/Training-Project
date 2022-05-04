@@ -11,7 +11,7 @@
     {{message}}
 <center>
      <div>
-        <form action="/alluser/Signup/" method="POST" style="width: 300px; height:1000px;">
+        <form action="{% url 'alluser:signup' %}" method="POST" style="width: 300px; height:1000px;">
             {% csrf_token %}
             <img src="{% static 'images/signup.png' %}" width="180" height="150">
             {{form|crispy}}<br>

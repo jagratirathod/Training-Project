@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends 'cbase.html' %}
 {% load crispy_forms_tags %}
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -8,17 +8,13 @@
 <div style="background-color: bisque; height:max-content">
 
     {{message}}
-    <center>
-        <div>Update Profile</div>
-        <div>
-            <form  method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                {{form | crispy}}
-                <button type="submit" class="btn btn-danger">Update</button>
-
-            </form>
-        </div>
-
+    <center> <br>
+        <h2>Update Profile</h2>
+        <form method="POST" enctype="multipart/form-data" style="width: 300px; height:500px;">
+            {% csrf_token %}
+            {{form | crispy}} <br>
+            <button type="submit" class="btn btn-danger">Update</button>
+        </form>
     </center>
 </div>
 {% endblock %}

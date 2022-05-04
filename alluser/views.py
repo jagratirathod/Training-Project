@@ -13,7 +13,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 class Signup(SuccessMessageMixin, CreateView):
     form_class = Signupform
     template_name = "signup.html"
-    success_url = "/alluser/LoginView/"
+    success_url = "/alluser/login/"
     success_message = "Successfully Signed ...!"
 
 

@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from django.urls import reverse_lazy
 import os
 from pathlib import Path
+import dj_database_url
 
 import razorpay
 
@@ -30,7 +31,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = False
 
 ALLOWED_HOSTS = ["jacksbites.herokuapp.com", "localhost"]
-# ALLOWED_HOSTS =[]
+# ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -89,20 +90,34 @@ WSGI_APPLICATION = 'BestBites.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'USER': 'root',
+#         'PASSWORD': 'Root@123',
+#         'NAME': 'swiggy',
+#         'PORT': '3306',
+#         'TEST': {
+#             'NAME': 'mytestswiggy',
+#         }
+
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.mysql',
-        'USER': 'root',
-        'PASSWORD': 'Root@123',
-        'NAME': 'swiggy',
-        'PORT': '3306',
-        'TEST': {
-            'NAME': 'mytestswiggy',
-        }
-
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'food',
+        'USER':'postgres',
+        'PASSWORD': 'root',
+        'PORT' : '5432',
     }
 }
+
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
 
 
 # Password validation
@@ -129,7 +144,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -139,10 +154,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR/'static']
 
 # STATICFILES_DIRS = [BASE_DIR/'static']
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = BASE_DIR
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR
 
@@ -166,3 +184,5 @@ login_url = reverse_lazy('alluser:login')
 CSRF_TRUSTED_ORIGINS = [
     'https://jacksbites.herokuapp.com'
 ]
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'

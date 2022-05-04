@@ -19,19 +19,19 @@
                 {% if row|in_cart:request.session.cart %}
                 <div class="row no-gutters">
                     <div class="col-2 ">
-                        <a href="/customer/item_decrement/{{row.id}}/"
+                        <a href="{% url 'customer:item_decrement' row.id %}"
                             class="btn btn-block btn-light border-right">-</a>
                     </div>
                     <div class="text-center col">{{row|cart_quantity:request.session.cart}} in Cart</div>
                     <div class="col-2 ">
-                        <a href="/customer/item_increment/{{row.id}}/" class="btn btn-block btn-light border-right">
+                        <a href="{% url 'customer:item_increment' row.id %}" class="btn btn-block btn-light border-right">
                             +
                         </a>
                     </div>
                 </div>
                 {% else %}
 
-                <a href="/customer/cart_add/{{row.id}}/" class="float-right btn btn-light form-control">
+                <a href="{% url 'customer:cart_add' row.id %}" class="float-right btn btn-light form-control">
                     Add To Cart
                 </a>
 

@@ -8,7 +8,7 @@ urlpatterns = [
     path('ReviewProduct/<int:pk>/', views.ReviewProduct.as_view(),name="review"),
     path('SingleFood/<int:pk>/', views.SingleFood.as_view(),name='singlefood'),
     path('payment/', views.payment,name="payment"),
-    path('Order/', views.MyOrder.as_view()),
+    path('Order/', views.MyOrder.as_view(),name='order'),
     path('Mywishlist/', views.Mywishlist.as_view(), name="wish"),
     path('Fooddelete/<int:pk>/', views.Fooddelete.as_view(), name="delete"),
     path('AddInWishlist/', views.AddInWishlist.as_view(),name="addinwishlist"),
@@ -18,7 +18,7 @@ urlpatterns = [
     path('item_increment/<int:pk>/', views.item_increment, name='item_increment'),
     path('item_decrement/<int:pk>/', views.item_decrement, name='item_decrement'),
     path('cart_clear/', views.cart_clear, name='cart_clear'),
-    path('cart-detail/', views.cart_detail, name='cart_detail'),
+    path('cart-detail/', views.cart_detail, name='cart-detail'),
     path('handlerequest/', views.handlerequest, name='handlerequest'),
 
     path('profile-update/<int:pk>/', views.ProfileUpdateView.as_view(), name='profile-update'),

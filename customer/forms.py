@@ -18,7 +18,8 @@ class Reviewform(forms.ModelForm):
         model = ProductReview
         fields = ("comment","rating")
 
+
 class UserForm(forms.ModelForm):
     class Meta:
         model=User
-        fields = ("image","email","first_name","last_name","mobile")
+        fields = ("images","email","first_name","last_name","mobile")

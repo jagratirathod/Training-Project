@@ -18,7 +18,7 @@ class User(AbstractUser):
     mobile = models.CharField(max_length=12)
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=20, choices=role)
-    image = models.ImageField(default=None)
+    images=models.ImageField(upload_to='users/',null=True,blank=True)
 
     objects = UserManager()
 

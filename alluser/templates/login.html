@@ -20,7 +20,7 @@
         <h1 style="font:bold; color:blue">Login Here!</h1> <br><br>
 
         <div>
-            <form method="POST" action="/alluser/LoginView/" style="width:400px;">
+            <form method="POST" action="{% url 'alluser:login' %}" style="width:400px;">
                 {% csrf_token %}
                 {{form|crispy}} <br>
                 <button type="submit" class="btn btn-danger">Login</button>
