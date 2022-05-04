@@ -8,9 +8,6 @@ django-shopping-cart
 djangorestframework
 djangorestframework-simplejwt
 drf-yasg
-mysql-client
-mysql-connector
-mysqlclient
 Pillow
 psycopg2
 razorpay

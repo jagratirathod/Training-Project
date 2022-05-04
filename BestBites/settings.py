@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from django.urls import reverse_lazy
 import os
 from pathlib import Path
-import dj_database_url
 
 import razorpay
 
