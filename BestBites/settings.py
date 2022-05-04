@@ -107,10 +107,11 @@ WSGI_APPLICATION = 'BestBites.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'food',
-        'USER':'postgres',
-        'PASSWORD': 'root',
+        'NAME': 'dbo9cln3aqj32e',
+        'USER':'rvpkmkzxyeoifu',
+        'PASSWORD': '8c3c2da74390b69173748fef9e78522874f0ba974878f54033d54ee90395d689',
         'PORT' : '5432',
+        'HOST': 'ec2-52-200-215-149.compute-1.amazonaws.com'
     }
 }
 
