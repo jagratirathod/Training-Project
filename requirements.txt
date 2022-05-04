@@ -18,4 +18,3 @@ redis
 virtualenv
 waitress
 whitenoise
-dj-database-url
