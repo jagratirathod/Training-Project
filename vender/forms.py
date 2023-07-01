@@ -13,4 +13,11 @@ class foodform(forms.ModelForm):
     
     class Meta:
         model = Food
-        fields = ("name","description","price","image","category","restaurants")
+        fields = ("name","description","price","image","category","restaurant")
+
+
+# class Restaurantform(forms.ModelForm):
+    
+#     class Meta:
+#         model = Restaurants
+#         fields = ('restorant_name','address','user')

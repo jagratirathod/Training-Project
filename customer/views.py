@@ -33,11 +33,13 @@ from django.contrib.sites.shortcuts import get_current_site
 import razorpay
 razorpay_client = razorpay.Client(
     auth=(settings.razorpay_id, settings.razorpay_account_id))
+from django.contrib.messages.views import SuccessMessageMixin
+from django.core.mail import send_mail
 
 # Create your views here.
 
 
-class CustomerView(View):
+class CustomerHome(View):
     def get(self, request):
         categories = Category.objects.all()
         foods = Food.objects.all().order_by('name')
@@ -47,14 +49,14 @@ class CustomerView(View):
         paginator = Paginator(foods, 6)
         page_number = request.GET.get('page')
         pagehere = paginator.get_page(page_number)
-        return render(request, "foodie.html", {'categories': categories, 'foods': pagehere})
+        return render(request, "customerhome.html", {'categories': categories, 'foods': pagehere})
 
 
 def cart_add(request, pk):
     cart = Cart(request)
     product = Food.objects.get(pk=pk)
     cart.add(product=product)
-    return redirect("customer:customerview")
+    return redirect("customer:cart-detail")
 
 
 def item_clear(request, pk):
@@ -112,6 +114,7 @@ class Mywishlist(ListView):
     model = Wishlist
     template_name = "wishlist.html"
     context_object_name = "wish"
+    
 
 
 class AddInWishlist(View):
@@ -124,7 +127,7 @@ class AddInWishlist(View):
 
         if food_in_wish == False:
             Wishlist.objects.create(user=user, food=food)
-        return redirect("customer:customerview")
+        return redirect("customer:wish")
 
 
 class Fooddelete(DeleteView):
@@ -175,6 +178,7 @@ def payment(request):
 
 @csrf_exempt
 def handlerequest(request):
+
     if request.method == "POST":
         order_id = request.POST.get('razorpay_order_id')
         payment_id = request.POST.get('razorpay_payment_id')
@@ -186,19 +190,21 @@ def handlerequest(request):
             'razorpay_signature': signature
         }
         myorder = Order.objects.get(order_id=order_id)
+        import pdb;pdb.set_trace()
         print(myorder)
-
-
+        user=request.user
+        print("hii :", myorder.user)
         
-        check = razorpay_client.utility.verify_payment_signature(params_dict)
-        if check:
+        try:
+            check = razorpay_client.utility.verify_payment_signature(params_dict)
             myorder.status = 'Done'
             myorder.save()
+            send_mail(subject="BestBites", message="Your order has been done successfully",from_email=settings.EMAIL_HOST_USER, recipient_list=[ myorder.user.email])
             return render(request, 'success.html')
-        
-        myorder.status = 'Fail'
-        myorder.save()
-        return render(request, 'cancel.html')
+        except:
+            myorder.status = 'Fail'
+            myorder.save()
+            return render(request, 'cancel.html')
 
 
 class MyOrder(View):
@@ -230,21 +236,24 @@ class SingleFood(DetailView):
 
 class Filterby(View):
     def get(self, request):
+        categories=Category.objects.all()
         sorts = request.GET.get('sort')
         if sorts == "LTH":
-            filter = Food.objects.all().order_by('price')
+            foods = Food.objects.all().order_by('price')
         else:
-            filter = Food.objects.all().order_by('-price')
-        return render(request, 'filter.html', {'filter': filter})
+            foods = Food.objects.all().order_by('-price')
+        return render(request, 'customerhome.html', {'foods': foods,'categories':categories})
 
 
 def profile(request):
     return render(request, 'profile.html')
 
 
-class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+class ProfileUpdateView(LoginRequiredMixin,SuccessMessageMixin, UpdateView):
     login_url = settings.login_url
     form_class = UserForm
     model = User
     template_name = 'profile-update.html'
     success_url = reverse_lazy("customer:profile")
+    success_message = "Successfully Edit Profile..."
+

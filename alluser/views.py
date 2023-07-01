@@ -1,11 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
+from BestBites import settings
 from mainapp.models import User
 from .forms import Signupform, Loginform
 from django.contrib.auth import authenticate, login
 from django.contrib.messages.views import SuccessMessageMixin
-
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -13,9 +15,13 @@ from django.contrib.messages.views import SuccessMessageMixin
 class Signup(SuccessMessageMixin, CreateView):
     form_class = Signupform
     template_name = "signup.html"
-    success_url = "/alluser/login/"
+    success_url = reverse_lazy('alluser:login')
     success_message = "Successfully Signed ...!"
 
+   
+    def form_valid(self,form):
+        send_mail(subject="BestBites", message="Your registration has been done successfully",from_email=settings.EMAIL_HOST_USER, recipient_list=[form.instance.email])
+        return super().form_valid(form)
 
 class LoginView(CreateView):
     # model = User
@@ -23,7 +29,7 @@ class LoginView(CreateView):
     form_class = Loginform
     template_name = "login.html"
     context_object_name = 'loginhere'
-    success_url = "/alluser/Login/"
+    success_url = reverse_lazy('alluser:login')
 
     def post(self, request):
         email = request.POST.get('email')

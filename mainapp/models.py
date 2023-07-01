@@ -18,7 +18,7 @@ class User(AbstractUser):
     mobile = models.CharField(max_length=12)
     email = models.EmailField(unique=True)
     role = models.CharField(max_length=20, choices=role)
-    images=models.ImageField(upload_to='users/',null=True,blank=True)
+    images=models.ImageField(upload_to='users/',null=True,blank=True,default=None)
 
     objects = UserManager()
 
@@ -27,13 +27,13 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 
-class Restaurants(models.Model):
-    restorant_name = models.CharField(max_length=70)
-    address = models.CharField(max_length=80)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+# class Restaurants(models.Model):
+#     restorant_name = models.CharField(max_length=70)
+#     address = models.CharField(max_length=80)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.restorant_name}"
+#     def __str__(self):
+#         return f"{self.restorant_name}"
 
 
 class Category(models.Model):
@@ -49,9 +49,11 @@ class Food(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=90)
     price = models.IntegerField()
-    image = models.ImageField(upload_to='media/')
+    image = models.ImageField(upload_to='media/', unique=True)
+    restaurant = models.CharField(max_length=90,default=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    restaurants = models.ForeignKey(Restaurants, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,default=True)
+
 
     def __str__(self):
         return f"{self.name}"

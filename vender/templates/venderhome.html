@@ -40,7 +40,9 @@
 
 <!-- ---- Food area ------- -->
 
+
 <div id="left">
+
     <a href="{% url 'vender:food' %}" class="btn btn-secondary">Add Food</a>
 
 
@@ -57,7 +59,7 @@
                     <div class="card-text">{{row.description}}</div>
                     <div class="card-text">Price: ₹{{row.price}}</div>
                     <div class="card-text">{{row.category}}</div>
-                    <div class="card-text">Restaurant : {{row.restaurants}}</div>
+                    <div class="card-text">Restaurant : {{row.restaurant}}</div>
                     <a href="#" class="btn btn-primary">see more..</a>
                     <a href="{% url 'vender:deletefood' row.id %}" style="float:right; color:rgb(99, 95, 95);"><i class="fa
                         fa-trash fa-2x"></i></a>

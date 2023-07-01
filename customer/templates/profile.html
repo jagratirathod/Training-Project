@@ -1,8 +1,16 @@
 {% extends 'cbase.html' %}
 {% load static %}
-{% load crispy_forms_tags %}
 
 {% block content %}
+
+{% if messages %}
+{% for message in messages %}
+<div class="text-center alert alert-{{ message.tags }} alert-dismissible">
+  {{ message|safe }}
+</div>
+{% endfor %}
+{% endif %}
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
@@ -19,7 +27,7 @@
       <img src="{{user.images.url}}" class="rounded float-right" height="300px" width="300px">
       {% else %}
 
-      <img src="{% static 'images/default-avtar.png' %}" class="rounded float-right" height="300px" width="300px">
+      <img src="{% static 'images/avtar.png' %}" class="rounded float-right" height="300px" width="300px">
 
       {% endif %}
     </div>
@@ -37,4 +45,3 @@
   </div>
 </div>
 {% endblock %}
-

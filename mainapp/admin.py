@@ -1,5 +1,5 @@
 from django.contrib import admin
-from . models import( User,Restaurants,Category,Food,Order,Orderline,Wishlist,
+from . models import( User,Category,Food,Order,Orderline,Wishlist,
                         ShippingAddress, ProductReview)
 
 # Register your models here.
@@ -9,16 +9,16 @@ class UserAdmin(admin.ModelAdmin):
 admin.site.register(User,UserAdmin)
 
 
-class RestaurantAdmin(admin.ModelAdmin):
-    list_display=['id','restorant_name','address','user']
-admin.site.register(Restaurants,RestaurantAdmin)
+# class RestaurantAdmin(admin.ModelAdmin):
+#     list_display=['id','restorant_name','address','user']
+# admin.site.register(Restaurants,RestaurantAdmin)
 
 class CategoryAdmin(admin.ModelAdmin):
     list_display=['id','cat_name','image','user']
 admin.site.register(Category,CategoryAdmin)
 
 class Foodadmin(admin.ModelAdmin):
-    list_display=['id','name','description','price','image','category','restaurants']
+    list_display=['id','name','description','price','image','category','restaurant','user']
 admin.site.register(Food,Foodadmin)
 
 class OrderAdmin(admin.ModelAdmin):

@@ -24,13 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
-# SECRET_KEY = 'django-insecure-#!udshn_1u09^w83e0jq3h6y#(n9ml$pxjt*aj^4h+b(a2irc1'
+# SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = 'django-insecure-#!udshn_1u09^w83e0jq3h6y#(n9ml$pxjt*aj^4h+b(a2irc1'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True  # False
 
-ALLOWED_HOSTS = ["bestbites2.herokuapp.com", "localhost"]
-# ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ["bestbites2.herokuapp.com", "localhost"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,35 +89,38 @@ WSGI_APPLICATION = 'BestBites.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#         'ENGINE': 'django.db.backends.mysql',
-#         'USER': 'root',
-#         'PASSWORD': 'Root@123',
-#         'NAME': 'swiggy',
-#         'PORT': '3306',
-#         'TEST': {
-#             'NAME': 'mytestswiggy',
-#         }
-
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dbo9cln3aqj32e',
-        'USER':'rvpkmkzxyeoifu',
-        'PASSWORD': '8c3c2da74390b69173748fef9e78522874f0ba974878f54033d54ee90395d689',
-        'PORT' : '5432',
-        'HOST': 'ec2-52-200-215-149.compute-1.amazonaws.com'
+        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'USER': 'root',
+        'PASSWORD': 'Root@123',
+        'NAME': 'zomato',
+        'PORT': '3306',
+        'TEST': {
+            'NAME': 'mytestswiggy',
+        }
+
     }
 }
 
-# db_from_env = dj_database_url.config(conn_max_age=600)
-# DATABASES['default'].update(db_from_env)
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'dbo9cln3aqj32e',
+#         'USER':'rvpkmkzxyeoifu',
+#         'PASSWORD': '8c3c2da74390b69173748fef9e78522874f0ba974878f54033d54ee90395d689',
+#         'PORT' : '5432',
+#         'HOST': 'ec2-52-200-215-149.compute-1.amazonaws.com'
+#     }
+# }
 
 
 # Password validation
@@ -156,9 +159,9 @@ USE_TZ = True
 
 
 STATIC_URL = 'static/'
-# STATICFILES_DIRS = [BASE_DIR/'static']
+STATICFILES_DIRS = [BASE_DIR/'static']
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
@@ -180,7 +183,14 @@ order_currency = 'INR'
 login_url = reverse_lazy('alluser:login')
 
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://bestbites2.herokuapp.com'
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://bestbites2.herokuapp.com'
+# ]
+
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_HOST_USER='jarathod@bestpeers.com'
+EMAIL_HOST_PASSWORD='bvgjtbruhmmiwqlb'
+EMAIL_PORT=587
+EMAIL_USE_TLS=True
 
